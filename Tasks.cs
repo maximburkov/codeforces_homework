@@ -247,4 +247,158 @@ namespace AlgoContest
 //}
 #endregion
 
+#region Task 6 Polshar
+//using System;
+//using System.Linq;
+
+//namespace AlgoContest
+//{
+//    class Program
+//    {
+
+//        static void Main(string[] args)
+//        {
+//            var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
+//            int p = buf[0];
+//            int v = buf[1];
+
+//            if (p > v)
+//            {
+//                Console.WriteLine("YES");
+//                return;
+//            }
+
+//            if (v > p)
+//            {
+//                Console.WriteLine("NO");
+//                return;
+//            }
+
+//            string[] pwords = new string[p];
+//            string[] vwords = new string[v];
+
+//            for (int i = 0; i < p; i++)
+//            {
+//                pwords[i] = Console.ReadLine();
+//            }
+
+//            for (int i = 0; i < v; i++)
+//            {
+//                vwords[i] = Console.ReadLine();
+//            }
+
+//            if (pwords.Intersect(vwords).Count() % 2 == 1)
+//            {
+//                Console.WriteLine("YES");
+//            }
+//            else
+//            {
+//                Console.WriteLine("NO");
+//            }
+//        }
+//    }
+//}
+#endregion
+
+#region Task 7 
+/*
+ * using System;
+using System.Linq;
+
+namespace AlgoContest
+{
+    class Program
+    {
+        struct Message
+        {
+            public string Name;
+            public int number;
+        }
+
+
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            Message [] list = new Message[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                list[i] = new Message{Name = Console.ReadLine(), number = i}; 
+            }
+
+            var res = list.GroupBy(i => i.Name).Select(i => i.Max(l => l.number)).ToArray();
+            Array.Sort(res);
+
+            for (int i = res.Length - 1; i >= 0; i--)
+            {
+                Console.WriteLine(list[res[i]].Name);
+            }
+        }
+    }
+}
+ */
+#endregion
+
+#region Task 8
+//using System;
+//using System.Linq;
+
+//namespace AlgoContest
+//{
+//    class Program
+//    {
+//        static int limit = 1000005;
+//        static void Main(string[] args)
+//        {
+//            var n = int.Parse(Console.ReadLine());
+//            int[] a = new int[limit];
+//            int[] places = new int[n];
+//            int max = 0;
+
+//            for (int i = 0; i < n; i++)
+//            {
+//                var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
+//                a[buf[0]] = buf[1];
+//                places[i] = buf[0];
+//                if (i == n - 1)
+//                {
+//                    max = buf[0];
+//                }
+//            }
+
+//            int[] res = new int[limit];
+//            int maxAlive = 0;
+
+//            if (a[0] > 0)
+//            {
+//                res[0] = 1;
+//            }
+
+//            for (int i = 1; i <= limit; i++)
+//            {
+//                if (a[i] == 0)
+//                {
+//                    res[i] = res[i - 1];
+//                }
+//                else
+//                {
+//                    if (a[i] >= i)
+//                        res[i] = 1;
+//                    else
+//                    {
+//                        res[i] = res[i - a[i] - 1] + 1;
+//                    }
+//                }
+
+//                if (res[i] > maxAlive)
+//                    maxAlive = res[i];
+//            }
+
+//            Console.WriteLine(n - maxAlive);
+
+//        }
+//    }
+//}
+#endregion
+
 
