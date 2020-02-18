@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.IO;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 
 namespace AlgoContest
 {
@@ -13,7 +11,7 @@ namespace AlgoContest
         static int GetHappyForAll(int[,] arr, int[] pos) => GetHappy(arr, pos[0], pos[1]) + GetHappy(arr, pos[2], pos[3]) * 2
             + GetHappy(arr, pos[1], pos[2]) + GetHappy(arr, pos[3], pos[4]) * 2;
 
-        static void GetMax(int[,] arr, ref int max, IImmutableList<int> added, IImmutableList<int> left)
+        static void GetMax(int[,] arr, ref int max, List<int> added, List<int> left)
         {
             if(added.Count == 5)
             {
@@ -25,31 +23,31 @@ namespace AlgoContest
             }
             foreach(var item in left)
             {
-                GetMax(arr, ref max, added.Add(item), left.Remove(item));
+                var newAdded = added.ToList();
+                newAdded.Add(item);
+                var newLeft = left.ToList();
+                newLeft.Remove(item);
+                GetMax(arr, ref max, newAdded, newLeft);
             }
         }
 
 
         static void Main(string[] args)
         {
-            using (StreamReader r = new StreamReader("input.txt"))
+            int[,] arr = new int[5, 5];
+            for (int i = 0; i < 5; i++)
             {
-                int[,] arr = new int[5, 5];
-                for (int i = 0; i < 5; i++)
+                var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
+                for (int j = 0; j < 5; j++)
                 {
-                    //var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
-                    var buf = r.ReadLine().Split().Select(int.Parse).ToArray();
-                    for (int j = 0; j < 5; j++)
-                    {
-                        arr[i, j] = buf[j];
-                    }
+                    arr[i, j] = buf[j];
                 }
-
-                int max = 0;
-
-                GetMax(arr, ref max, new List<int>().ToImmutableList(), new List<int> { 0, 1, 2, 3, 4}.ToImmutableList());
-                Console.WriteLine(max);
             }
+
+            int max = 0;
+
+            GetMax(arr, ref max, new List<int>(), new List<int> { 0, 1, 2, 3, 4 });
+            Console.WriteLine(max);
         }
     }
 }
