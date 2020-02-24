@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AlgoContest
 {
     static class Tasks_2
     {
         #region Task 1 zayavki
+
         //        using System;
         //using System.Linq;
         //using System.IO;
@@ -71,9 +73,11 @@ namespace AlgoContest
         //            }
         //        }
         //    }
+
         #endregion
 
         #region Task 2 Reposts
+
         /*
          * using System;
 using System.Linq;
@@ -102,9 +106,11 @@ namespace AlgoContest
 }
 
          */
+
         #endregion
 
         #region Task 3 Dush
+
         //        using System;
         //using System.Linq;
         //using System.Collections.Generic;
@@ -158,9 +164,108 @@ namespace AlgoContest
         //            }
         //        }
         //    }
+
         #endregion
 
-        #region Task 7 Security
+        #region Task 4 Sahir Ohrannik
+
+//        using System;
+//using System.Linq;
+
+//namespace AlgoContest
+//    {
+//        class Program
+//        {
+//            private static int ColCount;
+//            private static int FloorCount;
+//            private static int[] LastsFromLeft;
+//            private static int[] LastsFromRight;
+//            private static int LastFloor = 0;
+
+//            static int GetDistance(bool isLeft, int floor, int total)
+//            {
+//                if (floor == LastFloor)
+//                {
+//                    var res = total + (isLeft ? LastsFromLeft[floor] : LastsFromRight[floor]);
+//                    return res;
+//                }
+//                else
+//                {
+//                    if (isLeft)
+//                    {
+//                        var toLeft = LastsFromLeft[floor] * 2 + 1;
+//                        var toRight = ColCount + 2;
+//                        return Math.Min(GetDistance(true, floor + 1, total + toLeft),
+//                            GetDistance(false, floor + 1, total + toRight));
+//                    }
+//                    else
+//                    {
+//                        var toRight = LastsFromRight[floor] * 2 + 1;
+//                        var toLeft = ColCount + 2;
+//                        return Math.Min(GetDistance(true, floor + 1, total + toLeft),
+//                            GetDistance(false, floor + 1, total + toRight));
+//                    }
+//                }
+//            }
+
+
+//            static void Main(string[] args)
+//            {
+//                //using(StreamReader r = new StreamReader("input.txt"))
+//                //{
+//                var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
+//                //var buf = r.ReadLine().Split().Select(int.Parse).ToArray();
+
+//                FloorCount = buf[0];
+//                ColCount = buf[1];
+//                LastsFromLeft = new int[FloorCount];
+//                LastsFromRight = new int[FloorCount];
+
+//                for (int i = 0; i < FloorCount; i++)
+//                {
+//                    buf = Console.ReadLine().ToCharArray().Select(b => Convert.ToInt32(b) - 48).ToArray();
+//                    //buf = r.ReadLine().ToCharArray().Select(b => Convert.ToInt32(b) - 48).ToArray();
+
+
+//                    for (int j = 1; j <= ColCount; j++)
+//                    {
+//                        if (buf[j] == 1)
+//                        {
+//                            LastsFromLeft[i] = j;
+//                        }
+
+//                        if (LastsFromRight[i] == 0 && buf[j] == 1)
+//                        {
+//                            LastsFromRight[i] = ColCount + 1 - j;
+//                        }
+//                    }
+//                }
+
+//                for (int i = 0; i < FloorCount; i++)
+//                {
+//                    if (LastsFromLeft[i] != 0)
+//                    {
+//                        LastFloor = FloorCount - i - 1;
+//                        break;
+//                    }
+//                }
+
+//                Array.Reverse(LastsFromLeft);
+//                Array.Reverse(LastsFromRight);
+
+//                var result = GetDistance(true, 0, 0);
+
+//                Console.WriteLine(result);
+
+//            }
+//        }
+//    }
+
+        #endregion
+
+
+        #region Task 6 Security
+
         //using System;
         //using System.Linq;
         //using System.Collections.Generic;
@@ -206,52 +311,100 @@ namespace AlgoContest
         //        }
         //    }
         //}
-    #endregion
 
-    #region Task 7 Fence
-    //using System;
-    //using System.Linq;
-    //using System.Collections.Generic;
+        #endregion
 
-    //namespace AlgoContest
-    //{
-    //    class Program
-    //    {
-    //        static void Main(string[] args)
-    //        {
-    //            var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
-    //            int n = buf[0];
-    //            int k = buf[1];
+        #region Task 7 Fence
 
-    //            int[] sum = new int[n];
-    //            int[] f = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        //using System;
+        //using System.Linq;
+        //using System.Collections.Generic;
 
-    //            sum[0] = f[0];
+        //namespace AlgoContest
+        //{
+        //    class Program
+        //    {
+        //        static void Main(string[] args)
+        //        {
+        //            var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        //            int n = buf[0];
+        //            int k = buf[1];
 
-    //            for (int i = 1; i < k; i++)
-    //            {
-    //                sum[i] = sum[i - 1] + f[i];
-    //            }
+        //            int[] sum = new int[n];
+        //            int[] f = Console.ReadLine().Split().Select(int.Parse).ToArray();
 
-    //            int min = sum[k - 1];
-    //            int minIndex = 1;
+        //            sum[0] = f[0];
 
-    //            for (int i = k; i < n; i++)
-    //            {
-    //                sum[i] = sum[i - 1] - f[i - k] + f[i];
+        //            for (int i = 1; i < k; i++)
+        //            {
+        //                sum[i] = sum[i - 1] + f[i];
+        //            }
 
-    //                if (sum[i] < min)
-    //                {
-    //                    min = sum[i];
-    //                    minIndex = i + 2 - k;
-    //                }
-    //            }
+        //            int min = sum[k - 1];
+        //            int minIndex = 1;
 
-    //            Console.WriteLine(minIndex);
+        //            for (int i = k; i < n; i++)
+        //            {
+        //                sum[i] = sum[i - 1] - f[i - k] + f[i];
 
-    //        }
-    //    }
-    //}
-    #endregion
-}
+        //                if (sum[i] < min)
+        //                {
+        //                    min = sum[i];
+        //                    minIndex = i + 2 - k;
+        //                }
+        //            }
+
+        //            Console.WriteLine(minIndex);
+
+        //        }
+        //    }
+        //}
+
+        #endregion
+
+        #region Task 8 Korridor
+
+        //using System;
+        //using System.Linq;
+        //using System.Collections.Generic;
+        //using System.Diagnostics.CodeAnalysis;
+
+        //namespace AlgoContest
+        //{
+        //    class Program
+        //    {
+
+        //        static int CountValue(int[,] f, int leftOne, int leftThree)
+        //        {
+        //            if (leftOne > )
+        //        }
+
+        //        static void Main(string[] args)
+        //        {
+        //            var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        //            int n = buf[0];
+        //            int a = buf[1];
+        //            int b = buf[2];
+        //            var f = new int[n];
+        //            f[0] = 1;
+        //            f[1] = 1;
+        //            f[2] = 2;
+
+        //            for (int i = 3; i < n; i++)
+        //            {
+        //                f[i] = f[i - 1] + f[i - 3];
+        //            }
+
+
+
+
+
+
+        //            Console.WriteLine();
+        //        }
+        //    }
+        //}
+
+        #endregion
+    }
 }
