@@ -1,90 +1,94 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
 
 namespace AlgoContest
 {
     class Program
     {
-        private static int ColCount;
-        private static int FloorCount;
-        private static int[] LastsFromLeft;
-        private static int[] LastsFromRight;
-        private static int LastFloor = 0;
-
-        static int GetDistance(bool isLeft, int floor, int total)
+        private static int K;
+        private static int N;
+        private static int Total;
+        static bool IsOk(int [,] a, int row, int col)
         {
-            if (floor == LastFloor)
+            int i, j;
+            for (i = 0; i < col; i++)
+                if (a[row, i] == 1)
+                    return false;
+
+            for (i = 0; i < row; i++)
+                if (a[i, col] == 1)
+                    return false;
+
+            for (i = row, j = col; i >= 0 && j >= 0; i--, j--)
+                if (a[i, j] == 1)
+                    return false;
+
+            for (i = row, j = col; j >= 0 && i < a.GetLength(0); i++, j--)
+                if (a[i, j] == 1)
+                    return false;
+
+            return true;
+        }
+
+        static void AddOne(int [,] a, int count, int row, int col)
+        {
+            if (count == K)
             {
-                var res = total + (isLeft ? LastsFromLeft[floor] : LastsFromRight[floor]);
-                return res;
-            }
-            else
-            {
-                if (isLeft)
+                Total++;
+                if (col == 0)
                 {
-                    var toLeft = LastsFromLeft[floor] * 2 + 1;
-                    var toRight = ColCount + 2;
-                    return Math.Min(GetDistance(true, floor + 1, total + toLeft),
-                        GetDistance(false, floor + 1, total + toRight));
+                    a[row - 1, N - 1] = 0;
                 }
                 else
                 {
-                    var toRight = LastsFromRight[floor] * 2 + 1;
-                    var toLeft = ColCount + 2;
-                    return Math.Min(GetDistance(true, floor + 1, total + toLeft),
-                        GetDistance(false, floor + 1, total + toRight));
+                    a[row, col - 1] = 0;
                 }
+
+                AddOne(a, count - 1, row, col);
+                return;
+            }
+
+            if(row >= N || col >= N)
+            {
+                return;
+            }
+
+            if (IsOk(a, row, col))
+            {
+                a[row,col] = 1;
+
+                if (col == N - 1)
+                    AddOne(a, count + 1, row + 1, 0);
+                else
+                    AddOne(a, count + 1, row, col + 1);
+
+                a[row,col] = 0;
+            }
+            else
+            {
+                if (col == N - 1)
+                    AddOne(a, count, row + 1, 0);
+                else
+                    AddOne(a, count, row, col + 1);
             }
         }
 
-
         static void Main(string[] args)
         {
-            //using(StreamReader r = new StreamReader("input.txt"))
-            //{
             var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
-            //var buf = r.ReadLine().Split().Select(int.Parse).ToArray();
+            N = buf[0];
+            K = buf[1];
 
-            FloorCount = buf[0];
-            ColCount = buf[1];
-            LastsFromLeft = new int[FloorCount];
-            LastsFromRight = new int[FloorCount];
+            int[,] a = new int[N,N];
 
-            for (int i = 0; i < FloorCount; i++)
+            for (int i = 0; i < N; i++)
             {
-                buf = Console.ReadLine().ToCharArray().Select(b => Convert.ToInt32(b) - 48).ToArray();
-                //buf = r.ReadLine().ToCharArray().Select(b => Convert.ToInt32(b) - 48).ToArray();
-
-
-                for (int j = 1; j <= ColCount; j++)
+                for (int j = 0; j < N; j++)
                 {
-                    if (buf[j] == 1)
-                    {
-                        LastsFromLeft[i] = j;
-                    }
-
-                    if (LastsFromRight[i] == 0 && buf[j] == 1)
-                    {
-                        LastsFromRight[i] = ColCount + 1 - j;
-                    }
+                    AddOne(a, 0, i,j);
                 }
             }
-
-            for (int i = 0; i < FloorCount; i++)
-            {
-                if (LastsFromLeft[i] != 0)
-                {
-                    LastFloor = FloorCount - i - 1;
-                    break;
-                }
-            }
-
-            Array.Reverse(LastsFromLeft);
-            Array.Reverse(LastsFromRight);
-
-            var result = GetDistance(true, 0, 0);
-
-            Console.WriteLine(result);
 
         }
     }
