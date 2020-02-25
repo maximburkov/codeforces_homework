@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Linq;
 
 namespace AlgoContest
@@ -12,6 +11,7 @@ namespace AlgoContest
         static bool IsOk(int [,] a, int row, int col)
         {
             int i, j;
+            int n = a.GetLength(0);
             for (i = 0; i < col; i++)
                 if (a[row, i] == 1)
                     return false;
@@ -20,11 +20,22 @@ namespace AlgoContest
                 if (a[i, col] == 1)
                     return false;
 
-            for (i = row, j = col; i >= 0 && j >= 0; i--, j--)
+            //left bottom
+            for (i = row, j = col; i < n && j >= 0; i++, j--)
+                if (a[i, j] == 1)
+                    return false;
+            //left top
+            for (i = row, j = col; j >=0 && i >=0; i--, j--)
                 if (a[i, j] == 1)
                     return false;
 
-            for (i = row, j = col; j >= 0 && i < a.GetLength(0); i++, j--)
+            //right bottom
+            for (i = row, j = col; i < n && j < n; i++, j++)
+                if (a[i, j] == 1)
+                    return false;
+
+            //right top
+            for (i = row, j = col; i >= 0 && j < n; i--, j++)
                 if (a[i, j] == 1)
                     return false;
 
@@ -80,6 +91,12 @@ namespace AlgoContest
             N = buf[0];
             K = buf[1];
 
+            if (K == 1)
+            {
+                Console.WriteLine(N * N);
+                return;
+            }
+
             int[,] a = new int[N,N];
 
             for (int i = 0; i < N; i++)
@@ -90,6 +107,7 @@ namespace AlgoContest
                 }
             }
 
+            Console.WriteLine(Total);
         }
     }
 }
