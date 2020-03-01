@@ -1,113 +1,83 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace AlgoContest
 {
+    struct Option
+    {
+        public int A;
+        public int B;
+    }
+
     class Program
     {
-        private static int K;
-        private static int N;
-        private static int Total;
-        static bool IsOk(int [,] a, int row, int col)
-        {
-            int i, j;
-            int n = a.GetLength(0);
-            for (i = 0; i < col; i++)
-                if (a[row, i] == 1)
-                    return false;
-
-            for (i = 0; i < row; i++)
-                if (a[i, col] == 1)
-                    return false;
-
-            //left bottom
-            for (i = row, j = col; i < n && j >= 0; i++, j--)
-                if (a[i, j] == 1)
-                    return false;
-            //left top
-            for (i = row, j = col; j >=0 && i >=0; i--, j--)
-                if (a[i, j] == 1)
-                    return false;
-
-            //right bottom
-            for (i = row, j = col; i < n && j < n; i++, j++)
-                if (a[i, j] == 1)
-                    return false;
-
-            //right top
-            for (i = row, j = col; i >= 0 && j < n; i--, j++)
-                if (a[i, j] == 1)
-                    return false;
-
-            return true;
-        }
-
-        static void AddOne(int [,] a, int count, int row, int col)
-        {
-            if (count == K)
-            {
-                Total++;
-                if (col == 0)
-                {
-                    a[row - 1, N - 1] = 0;
-                }
-                else
-                {
-                    a[row, col - 1] = 0;
-                }
-
-                AddOne(a, count - 1, row, col);
-                return;
-            }
-
-            if(row >= N || col >= N)
-            {
-                return;
-            }
-
-            if (IsOk(a, row, col))
-            {
-                a[row,col] = 1;
-
-                if (col == N - 1)
-                    AddOne(a, count + 1, row + 1, 0);
-                else
-                    AddOne(a, count + 1, row, col + 1);
-
-                a[row,col] = 0;
-            }
-            else
-            {
-                if (col == N - 1)
-                    AddOne(a, count, row + 1, 0);
-                else
-                    AddOne(a, count, row, col + 1);
-            }
-        }
-
         static void Main(string[] args)
         {
             var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
-            N = buf[0];
-            K = buf[1];
+            int n = buf[0];
+            int a = buf[1]; //1m count
+            int b = buf[2]; //3m count
+            var f = new List<Option>[n];
 
-            if (K == 1)
+            if (a > 0)
             {
-                Console.WriteLine(N * N);
-                return;
+                f[0] = new List<Option>{new Option{A = a - 1, B = b}};
+            }
+            else
+            {
+                f[0] = new List<Option>(0);
             }
 
-            int[,] a = new int[N,N];
-
-            for (int i = 0; i < N; i++)
+            if (n > 1)
             {
-                for (int j = 0; j < N; j++)
+                if (a > 1)
                 {
-                    AddOne(a, 0, i,j);
+                    f[1] = new List<Option> { new Option { A = a - 2, B = b } };
+                }
+                else
+                {
+                    f[1] = new List<Option>(0);
                 }
             }
 
-            Console.WriteLine(Total);
+            if(n > 2)
+            {
+                var options = new List<Option>(2);
+                if (a > 2)
+                {
+                    options.Add(new Option{A = a - 3, B = b});
+                }
+
+                if (b > 0)
+                {
+                    options.Add(new Option {A = a, B = b - 1});
+                }
+
+                f[2] = options;
+            }
+
+            for (int i = 3; i < n; i++)
+            {
+                var first = f[i - 1].Where(o => o.A > 0).Select(o =>
+                {
+                    o.A--;
+                    return o;
+                }).ToList();
+                var second = (f[i - 3].Where(o => o.B > 0).Select(o =>
+                {
+                    o.B--;
+                    return o;
+                })).ToList();
+
+                f[i-3].Clear();
+                f[i - 3] = null;
+
+                first.AddRange(second);
+                f[i] = first;
+            }
+
+            Console.WriteLine(f[n - 1].Count % 1000000009);
         }
     }
 }

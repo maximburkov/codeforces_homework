@@ -169,6 +169,100 @@ namespace AlgoContest
 
         #region Task 4 Sahir Ohrannik
 
+        //        using System;
+        //using System.Linq;
+
+        //namespace AlgoContest
+        //    {
+        //        class Program
+        //        {
+        //            private static int ColCount;
+        //            private static int FloorCount;
+        //            private static int[] LastsFromLeft;
+        //            private static int[] LastsFromRight;
+        //            private static int LastFloor = 0;
+
+        //            static int GetDistance(bool isLeft, int floor, int total)
+        //            {
+        //                if (floor == LastFloor)
+        //                {
+        //                    var res = total + (isLeft ? LastsFromLeft[floor] : LastsFromRight[floor]);
+        //                    return res;
+        //                }
+        //                else
+        //                {
+        //                    if (isLeft)
+        //                    {
+        //                        var toLeft = LastsFromLeft[floor] * 2 + 1;
+        //                        var toRight = ColCount + 2;
+        //                        return Math.Min(GetDistance(true, floor + 1, total + toLeft),
+        //                            GetDistance(false, floor + 1, total + toRight));
+        //                    }
+        //                    else
+        //                    {
+        //                        var toRight = LastsFromRight[floor] * 2 + 1;
+        //                        var toLeft = ColCount + 2;
+        //                        return Math.Min(GetDistance(true, floor + 1, total + toLeft),
+        //                            GetDistance(false, floor + 1, total + toRight));
+        //                    }
+        //                }
+        //            }
+
+
+        //            static void Main(string[] args)
+        //            {
+        //                //using(StreamReader r = new StreamReader("input.txt"))
+        //                //{
+        //                var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        //                //var buf = r.ReadLine().Split().Select(int.Parse).ToArray();
+
+        //                FloorCount = buf[0];
+        //                ColCount = buf[1];
+        //                LastsFromLeft = new int[FloorCount];
+        //                LastsFromRight = new int[FloorCount];
+
+        //                for (int i = 0; i < FloorCount; i++)
+        //                {
+        //                    buf = Console.ReadLine().ToCharArray().Select(b => Convert.ToInt32(b) - 48).ToArray();
+        //                    //buf = r.ReadLine().ToCharArray().Select(b => Convert.ToInt32(b) - 48).ToArray();
+
+
+        //                    for (int j = 1; j <= ColCount; j++)
+        //                    {
+        //                        if (buf[j] == 1)
+        //                        {
+        //                            LastsFromLeft[i] = j;
+        //                        }
+
+        //                        if (LastsFromRight[i] == 0 && buf[j] == 1)
+        //                        {
+        //                            LastsFromRight[i] = ColCount + 1 - j;
+        //                        }
+        //                    }
+        //                }
+
+        //                for (int i = 0; i < FloorCount; i++)
+        //                {
+        //                    if (LastsFromLeft[i] != 0)
+        //                    {
+        //                        LastFloor = FloorCount - i - 1;
+        //                        break;
+        //                    }
+        //                }
+
+        //                Array.Reverse(LastsFromLeft);
+        //                Array.Reverse(LastsFromRight);
+
+        //                var result = GetDistance(true, 0, 0);
+
+        //                Console.WriteLine(result);
+
+        //            }
+        //        }
+        //    }
+
+        #endregion
+        #region Task 5 Edenichki
 //        using System;
 //using System.Linq;
 
@@ -176,235 +270,255 @@ namespace AlgoContest
 //    {
 //        class Program
 //        {
-//            private static int ColCount;
-//            private static int FloorCount;
-//            private static int[] LastsFromLeft;
-//            private static int[] LastsFromRight;
-//            private static int LastFloor = 0;
-
-//            static int GetDistance(bool isLeft, int floor, int total)
+//            private static int K;
+//            private static int N;
+//            private static int Total;
+//            static bool IsOk(int[,] a, int row, int col)
 //            {
-//                if (floor == LastFloor)
+//                int i, j;
+//                int n = a.GetLength(0);
+//                for (i = 0; i < col; i++)
+//                    if (a[row, i] == 1)
+//                        return false;
+
+//                for (i = 0; i < row; i++)
+//                    if (a[i, col] == 1)
+//                        return false;
+
+//                //left bottom
+//                for (i = row, j = col; i < n && j >= 0; i++, j--)
+//                    if (a[i, j] == 1)
+//                        return false;
+//                //left top
+//                for (i = row, j = col; j >= 0 && i >= 0; i--, j--)
+//                    if (a[i, j] == 1)
+//                        return false;
+
+//                //right bottom
+//                for (i = row, j = col; i < n && j < n; i++, j++)
+//                    if (a[i, j] == 1)
+//                        return false;
+
+//                //right top
+//                for (i = row, j = col; i >= 0 && j < n; i--, j++)
+//                    if (a[i, j] == 1)
+//                        return false;
+
+//                return true;
+//            }
+
+//            static void AddOne(int[,] a, int left, int row, int col)
+//            {
+//                if (left == 0)
 //                {
-//                    var res = total + (isLeft ? LastsFromLeft[floor] : LastsFromRight[floor]);
-//                    return res;
-//                }
-//                else
-//                {
-//                    if (isLeft)
+//                    Total++;
+//                    if (col == 0)
 //                    {
-//                        var toLeft = LastsFromLeft[floor] * 2 + 1;
-//                        var toRight = ColCount + 2;
-//                        return Math.Min(GetDistance(true, floor + 1, total + toLeft),
-//                            GetDistance(false, floor + 1, total + toRight));
+//                        a[row - 1, N - 1] = 0;
 //                    }
 //                    else
 //                    {
-//                        var toRight = LastsFromRight[floor] * 2 + 1;
-//                        var toLeft = ColCount + 2;
-//                        return Math.Min(GetDistance(true, floor + 1, total + toLeft),
-//                            GetDistance(false, floor + 1, total + toRight));
+//                        a[row, col - 1] = 0;
 //                    }
+
+//                    AddOne(a, left + 1, row, col);
+//                    return;
+//                }
+
+//                if (row >= N || col >= N)
+//                {
+//                    return;
+//                }
+
+//                if (IsOk(a, row, col))
+//                {
+//                    a[row, col] = 1;
+
+//                    if (col == N - 1)
+//                        AddOne(a, left - 1, row + 1, 0);
+//                    else
+//                        AddOne(a, left - 1, row, col + 1);
+
+//                    a[row, col] = 0;
+//                }
+//                else
+//                {
+//                    if (col == N - 1)
+//                        AddOne(a, left, row + 1, 0);
+//                    else
+//                        AddOne(a, left, row, col + 1);
 //                }
 //            }
-
 
 //            static void Main(string[] args)
 //            {
-//                //using(StreamReader r = new StreamReader("input.txt"))
-//                //{
 //                var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
-//                //var buf = r.ReadLine().Split().Select(int.Parse).ToArray();
+//                N = buf[0];
+//                K = buf[1];
 
-//                FloorCount = buf[0];
-//                ColCount = buf[1];
-//                LastsFromLeft = new int[FloorCount];
-//                LastsFromRight = new int[FloorCount];
-
-//                for (int i = 0; i < FloorCount; i++)
+//                if (K == 1)
 //                {
-//                    buf = Console.ReadLine().ToCharArray().Select(b => Convert.ToInt32(b) - 48).ToArray();
-//                    //buf = r.ReadLine().ToCharArray().Select(b => Convert.ToInt32(b) - 48).ToArray();
+//                    Console.WriteLine(N * N);
+//                    return;
+//                }
 
+//                int[,] a = new int[N, N];
 
-//                    for (int j = 1; j <= ColCount; j++)
+//                for (int i = 0; i < N; i++)
+//                {
+//                    for (int j = 0; j < N; j++)
 //                    {
-//                        if (buf[j] == 1)
-//                        {
-//                            LastsFromLeft[i] = j;
-//                        }
-
-//                        if (LastsFromRight[i] == 0 && buf[j] == 1)
-//                        {
-//                            LastsFromRight[i] = ColCount + 1 - j;
-//                        }
+//                        AddOne(a, K, i, j);
 //                    }
 //                }
 
-//                for (int i = 0; i < FloorCount; i++)
-//                {
-//                    if (LastsFromLeft[i] != 0)
-//                    {
-//                        LastFloor = FloorCount - i - 1;
-//                        break;
-//                    }
-//                }
-
-//                Array.Reverse(LastsFromLeft);
-//                Array.Reverse(LastsFromRight);
-
-//                var result = GetDistance(true, 0, 0);
-
-//                Console.WriteLine(result);
-
+//                Console.WriteLine(Total);
 //            }
 //        }
 //    }
+    #endregion
 
-        #endregion
+    #region Task 6 Security
 
+    //using System;
+    //using System.Linq;
+    //using System.Collections.Generic;
 
-        #region Task 6 Security
+    //namespace AlgoContest
+    //{
+    //    class Program
+    //    {
+    //        static void Main(string[] args)
+    //        {
+    //            int n = int.Parse(Console.ReadLine());
+    //            int[,] res = new int[n, n];
 
-        //using System;
-        //using System.Linq;
-        //using System.Collections.Generic;
+    //            for (int i = 0; i < n; i++)
+    //            {
+    //                var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
 
-        //namespace AlgoContest
-        //{
-        //    class Program
-        //    {
-        //        static void Main(string[] args)
-        //        {
-        //            int n = int.Parse(Console.ReadLine());
-        //            int[,] res = new int[n, n];
+    //                for (int j = 0; j < n; j++)
+    //                {
+    //                    if (i == 0 && j == 0)
+    //                    {
+    //                        res[i, j] = buf[j];
+    //                    }
+    //                    else
+    //                    {
+    //                        if (i == 0)
+    //                        {
+    //                            res[i, j] = res[i, j - 1] + buf[j];
+    //                        }
+    //                        else if (j == 0)
+    //                        {
+    //                            res[i, j] = res[i - 1, j] + buf[j];
+    //                        }
+    //                        else
+    //                        {
+    //                            res[i, j] = Math.Max(res[i - 1, j], res[i, j - 1]) + buf[j];
+    //                        }
+    //                    }
+    //                }
+    //            }
 
-        //            for (int i = 0; i < n; i++)
-        //            {
-        //                var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
+    //            Console.WriteLine(res[n - 1, n - 1]);
+    //        }
+    //    }
+    //}
 
-        //                for (int j = 0; j < n; j++)
-        //                {
-        //                    if (i == 0 && j == 0)
-        //                    {
-        //                        res[i, j] = buf[j];
-        //                    }
-        //                    else
-        //                    {
-        //                        if (i == 0)
-        //                        {
-        //                            res[i, j] = res[i, j - 1] + buf[j];
-        //                        }
-        //                        else if (j == 0)
-        //                        {
-        //                            res[i, j] = res[i - 1, j] + buf[j];
-        //                        }
-        //                        else
-        //                        {
-        //                            res[i, j] = Math.Max(res[i - 1, j], res[i, j - 1]) + buf[j];
-        //                        }
-        //                    }
-        //                }
-        //            }
+    #endregion
 
-        //            Console.WriteLine(res[n - 1, n - 1]);
-        //        }
-        //    }
-        //}
+    #region Task 7 Fence
 
-        #endregion
+    //using System;
+    //using System.Linq;
+    //using System.Collections.Generic;
 
-        #region Task 7 Fence
+    //namespace AlgoContest
+    //{
+    //    class Program
+    //    {
+    //        static void Main(string[] args)
+    //        {
+    //            var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
+    //            int n = buf[0];
+    //            int k = buf[1];
 
-        //using System;
-        //using System.Linq;
-        //using System.Collections.Generic;
+    //            int[] sum = new int[n];
+    //            int[] f = Console.ReadLine().Split().Select(int.Parse).ToArray();
 
-        //namespace AlgoContest
-        //{
-        //    class Program
-        //    {
-        //        static void Main(string[] args)
-        //        {
-        //            var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
-        //            int n = buf[0];
-        //            int k = buf[1];
+    //            sum[0] = f[0];
 
-        //            int[] sum = new int[n];
-        //            int[] f = Console.ReadLine().Split().Select(int.Parse).ToArray();
+    //            for (int i = 1; i < k; i++)
+    //            {
+    //                sum[i] = sum[i - 1] + f[i];
+    //            }
 
-        //            sum[0] = f[0];
+    //            int min = sum[k - 1];
+    //            int minIndex = 1;
 
-        //            for (int i = 1; i < k; i++)
-        //            {
-        //                sum[i] = sum[i - 1] + f[i];
-        //            }
+    //            for (int i = k; i < n; i++)
+    //            {
+    //                sum[i] = sum[i - 1] - f[i - k] + f[i];
 
-        //            int min = sum[k - 1];
-        //            int minIndex = 1;
+    //                if (sum[i] < min)
+    //                {
+    //                    min = sum[i];
+    //                    minIndex = i + 2 - k;
+    //                }
+    //            }
 
-        //            for (int i = k; i < n; i++)
-        //            {
-        //                sum[i] = sum[i - 1] - f[i - k] + f[i];
+    //            Console.WriteLine(minIndex);
 
-        //                if (sum[i] < min)
-        //                {
-        //                    min = sum[i];
-        //                    minIndex = i + 2 - k;
-        //                }
-        //            }
+    //        }
+    //    }
+    //}
 
-        //            Console.WriteLine(minIndex);
+    #endregion
 
-        //        }
-        //    }
-        //}
+    #region Task 8 Korridor
 
-        #endregion
+    //using System;
+    //using System.Linq;
+    //using System.Collections.Generic;
+    //using System.Diagnostics.CodeAnalysis;
 
-        #region Task 8 Korridor
+    //namespace AlgoContest
+    //{
+    //    class Program
+    //    {
 
-        //using System;
-        //using System.Linq;
-        //using System.Collections.Generic;
-        //using System.Diagnostics.CodeAnalysis;
+    //        static int CountValue(int[,] f, int leftOne, int leftThree)
+    //        {
+    //            if (leftOne > )
+    //        }
 
-        //namespace AlgoContest
-        //{
-        //    class Program
-        //    {
+    //        static void Main(string[] args)
+    //        {
+    //            var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
+    //            int n = buf[0];
+    //            int a = buf[1];
+    //            int b = buf[2];
+    //            var f = new int[n];
+    //            f[0] = 1;
+    //            f[1] = 1;
+    //            f[2] = 2;
 
-        //        static int CountValue(int[,] f, int leftOne, int leftThree)
-        //        {
-        //            if (leftOne > )
-        //        }
-
-        //        static void Main(string[] args)
-        //        {
-        //            var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
-        //            int n = buf[0];
-        //            int a = buf[1];
-        //            int b = buf[2];
-        //            var f = new int[n];
-        //            f[0] = 1;
-        //            f[1] = 1;
-        //            f[2] = 2;
-
-        //            for (int i = 3; i < n; i++)
-        //            {
-        //                f[i] = f[i - 1] + f[i - 3];
-        //            }
+    //            for (int i = 3; i < n; i++)
+    //            {
+    //                f[i] = f[i - 1] + f[i - 3];
+    //            }
 
 
 
 
 
 
-        //            Console.WriteLine();
-        //        }
-        //    }
-        //}
+    //            Console.WriteLine();
+    //        }
+    //    }
+    //}
 
-        #endregion
-    }
+    #endregion
+}
 }
