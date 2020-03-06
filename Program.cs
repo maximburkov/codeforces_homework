@@ -1,83 +1,67 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AlgoContest
 {
-    struct Option
-    {
-        public int A;
-        public int B;
-    }
-
     class Program
     {
+        static bool IsUnhappy = false;
+
+        static bool CheckIsUnhappy(int[] head, int[] tail, List<int> permutations)
+        {
+            bool allBigger = true;
+            bool allLess = true;
+
+            for (int i = 0; i < permutations.Count; i++)
+            {
+                if (head[i] >= tail[permutations[i]])
+                    allLess = false;
+
+                if (head[i] <= tail[permutations[i]])
+                    allBigger = false;
+
+
+                if (!(allLess || allBigger))
+                    return false;
+            }
+
+            return true;
+        }
+
+        static void Solve(List<int> added, List<int> left, int[] head, int[] tail, int n)
+        {
+            if (added.Count == n)
+            {
+                IsUnhappy = true;
+                return;
+            }
+
+            foreach (var item in left)
+            {
+                var newAdded = added.ToList();
+                newAdded.Add(item);
+                var newLeft = left.ToList();
+                newLeft.Remove(item);
+
+                if (CheckIsUnhappy(head, tail, newAdded))
+                {
+                    Solve(newAdded, newLeft, head, tail, n);
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
-            var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
-            int n = buf[0];
-            int a = buf[1]; //1m count
-            int b = buf[2]; //3m count
-            var f = new List<Option>[n];
+            int n = int.Parse(Console.ReadLine());
+            var buf = Console.ReadLine().ToCharArray().Select(i => int.Parse(i.ToString())).ToArray();
+            var head = buf.Take(n).ToArray();
+            var tail = buf.Skip(n).ToArray();
+            var added = new List<int>(n);
+            var left = Enumerable.Range(0, n).ToList();
 
-            if (a > 0)
-            {
-                f[0] = new List<Option>{new Option{A = a - 1, B = b}};
-            }
-            else
-            {
-                f[0] = new List<Option>(0);
-            }
-
-            if (n > 1)
-            {
-                if (a > 1)
-                {
-                    f[1] = new List<Option> { new Option { A = a - 2, B = b } };
-                }
-                else
-                {
-                    f[1] = new List<Option>(0);
-                }
-            }
-
-            if(n > 2)
-            {
-                var options = new List<Option>(2);
-                if (a > 2)
-                {
-                    options.Add(new Option{A = a - 3, B = b});
-                }
-
-                if (b > 0)
-                {
-                    options.Add(new Option {A = a, B = b - 1});
-                }
-
-                f[2] = options;
-            }
-
-            for (int i = 3; i < n; i++)
-            {
-                var first = f[i - 1].Where(o => o.A > 0).Select(o =>
-                {
-                    o.A--;
-                    return o;
-                }).ToList();
-                var second = (f[i - 3].Where(o => o.B > 0).Select(o =>
-                {
-                    o.B--;
-                    return o;
-                })).ToList();
-
-                f[i-3].Clear();
-                f[i - 3] = null;
-
-                first.AddRange(second);
-                f[i] = first;
-            }
-
-            Console.WriteLine(f[n - 1].Count % 1000000009);
+            Solve(added, left, head, tail, n);
+            Console.WriteLine(IsUnhappy ? "YES" : "NO");
         }
     }
 }
