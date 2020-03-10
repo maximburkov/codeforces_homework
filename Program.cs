@@ -1,67 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace AlgoContest
 {
     class Program
     {
-        static bool IsUnhappy = false;
+        private static int _count = 0;
 
-        static bool CheckIsUnhappy(int[] head, int[] tail, List<int> permutations)
+        static void Solve(int sum, int max)
         {
-            bool allBigger = true;
-            bool allLess = true;
-
-            for (int i = 0; i < permutations.Count; i++)
+            if (sum == 0)
             {
-                if (head[i] >= tail[permutations[i]])
-                    allLess = false;
-
-                if (head[i] <= tail[permutations[i]])
-                    allBigger = false;
-
-
-                if (!(allLess || allBigger))
-                    return false;
-            }
-
-            return true;
-        }
-
-        static void Solve(List<int> added, List<int> left, int[] head, int[] tail, int n)
-        {
-            if (added.Count == n)
-            {
-                IsUnhappy = true;
+                _count++;
                 return;
             }
-
-            foreach (var item in left)
+            for (int i = max; i >= 1; i--)
             {
-                var newAdded = added.ToList();
-                newAdded.Add(item);
-                var newLeft = left.ToList();
-                newLeft.Remove(item);
-
-                if (CheckIsUnhappy(head, tail, newAdded))
+                if (i <= sum)
                 {
-                    Solve(newAdded, newLeft, head, tail, n);
+                    Solve(sum - i, i);
                 }
             }
         }
 
         static void Main(string[] args)
         {
-            int n = int.Parse(Console.ReadLine());
-            var buf = Console.ReadLine().ToCharArray().Select(i => int.Parse(i.ToString())).ToArray();
-            var head = buf.Take(n).ToArray();
-            var tail = buf.Skip(n).ToArray();
-            var added = new List<int>(n);
-            var left = Enumerable.Range(0, n).ToList();
+            var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            int n = buf[0];
+            int m = buf[1];
 
-            Solve(added, left, head, tail, n);
-            Console.WriteLine(IsUnhappy ? "YES" : "NO");
+            Solve(n, m);
+
+            Console.WriteLine(_count);
         }
     }
 }

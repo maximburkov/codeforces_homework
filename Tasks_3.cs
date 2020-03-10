@@ -68,33 +68,111 @@ namespace AlgoContest
         #endregion
 
         #region Natasha
+        //        using System;
+        //        using System.Linq;
+
+        //        namespace AlgoContest
+        //        {
+
+        //    class Program
+        //    {
+        //        static void Main(string[] args)
+        //        {
+        //            var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
+
+        //            int n = buf[0];
+        //            int m = buf[1];
+
+        //            var arr = new int[n][];
+
+        //            for (int i = 0; i < n; i++)
+        //            {
+        //                arr[i] = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        //            }
+
+        //            int res = arr.OrderBy(i => i.Min()).Last().Min();
+        //            Console.WriteLine(res);
+        //        }
+        //    }
+        //}
+        #endregion
+
+        #region Tickets
+        //using System;
+        //using System.Linq;
+
+        //namespace AlgoContest
+        //{
+        //    class Program
+        //    {
+
+        //        static void Main(string[] args)
+        //        {
+        //            int n = int.Parse(Console.ReadLine());
+        //            var buf = Console.ReadLine().ToCharArray().Select(i => int.Parse(i.ToString())).ToArray();
+        //            var head = buf.Take(n).ToArray();
+        //            var tail = buf.Skip(n).ToArray();
+
+        //            Array.Sort(head);
+        //            Array.Sort(tail);
+
+        //            bool allLess = true;
+        //            bool allBigger = true;
+
+        //            for (int i = 0; i < n; i++)
+        //            {
+        //                if (head[i] >= tail[i])
+        //                    allLess = false;
+
+        //                if (head[i] <= tail[i])
+        //                    allBigger = false;
+        //            }
+
+        //            Console.WriteLine(allBigger || allLess ? "YES" : "NO");
+        //        }
+        //    }
+        //}
+        #endregion 
+
+        #region partitions
 //        using System;
 //        using System.Linq;
 
 //        namespace AlgoContest
 //        {
+//            class Program
+//            {
+//        private static int _count = 0;
 
-//    class Program
-//    {
+//        static void Solve(int sum, int max)
+//        {
+//            if (sum == 0)
+//            {
+//                _count++;
+//                return;
+//            }
+//            for (int i = max; i >= 1; i--)
+//            {
+//                if (i <= sum)
+//                {
+//                    Solve(sum - i, i);
+//                }
+//            }
+//        }
+
 //        static void Main(string[] args)
 //        {
 //            var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
-
 //            int n = buf[0];
 //            int m = buf[1];
 
-//            var arr = new int[n][];
+//            Solve(n, m);
 
-//            for (int i = 0; i < n; i++)
-//            {
-//                arr[i] = Console.ReadLine().Split().Select(int.Parse).ToArray();
-//            }
-
-//            int res = arr.OrderBy(i => i.Min()).Last().Min();
-//            Console.WriteLine(res);
+//            Console.WriteLine(_count);
 //        }
 //    }
 //}
-    #endregion
+    #endregion 
+
 }
 }
