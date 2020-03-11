@@ -7,27 +7,57 @@ namespace AlgoContest
     {
         static void Main(string[] args)
         {
-            var s = Console.ReadLine().ToCharArray();
-            int n = int.Parse(Console.ReadLine());
-            int[] arr = new int[s.Length];
+            var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            int n = buf[0];
+            int b = buf[1];
 
-            char prev = s[0];
-            arr[0] = 1;
+            var arr = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var prices = new int[n/2 - 1];
 
-            for (int i = 1; i < s.Length; i++)
-            {
-                arr[i] = s[i] == prev ? arr[i - 1] + 1 : arr[i - 1];
-                prev = s[i];
-            }
+            int odd = 0;
+            int even = 0;
 
-            int left, right;
             for (int i = 0; i < n; i++)
             {
-                var buf = Console.ReadLine().Split().Select(int.Parse).ToArray();
-                left = buf[0] - 1;
-                right = buf[1] - 1;
-                Console.WriteLine(arr[right] - arr[left]);
+                if (arr[i] % 2 == 0)
+                    odd++;
+                else
+                    even++;
+
+                if(i %  2 != 0) //if even
+                {
+                    if(odd == even)
+                    {
+                        if(i != n - 1)
+                        {
+                            prices[(i + 1) / 2 - 1] = Math.Abs(arr[i + 1] - arr[i]);
+                        }
+                    }
+                    else
+                    {
+                        if (i != n - 1)
+                        {
+                            prices[(i + 1) / 2 - 1] = int.MaxValue;
+                        }
+                    }
+                }         
             }
+
+            Array.Sort(prices);
+            int count = 0;
+
+            for (int i = 0; i < prices.Length; i++)
+            {
+                b -= prices[i];
+
+                if (b >= 0)
+                    count++;
+
+                if (b <= 0)
+                    break;
+            }
+
+            Console.WriteLine(count);
         }
     }
 }
