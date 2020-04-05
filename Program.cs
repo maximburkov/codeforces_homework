@@ -1,27 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace AlgoContest
 {
     class Program
     {
-        private static int _count = 0;
-
-        static void Solve(int sum, int max)
+        static int BinarySearchCount(int[] a, int find, int l, int r)
         {
-            if (sum == 0)
+            if (l == r)
             {
-                _count++;
-                return;
+                return a[l] > find ? l : l + 1;
             }
-            for (int i = max; i >= 1; i--)
-            {
-                if (i <= sum)
-                {
-                    Solve(sum - i, i);
-                }
-            }
+
+            int m = (l + r) / 2;
+
+            if (a[m] > find && (m == 0 || a[m - 1] <= find))
+                return m;
+
+            if(a[m] <= find)
+                return BinarySearchCount(a, find, m + 1, r);
+            else
+                return BinarySearchCount(a, find, l, m - 1);
         }
+
 
         static void Main(string[] args)
         {
@@ -29,9 +32,16 @@ namespace AlgoContest
             int n = buf[0];
             int m = buf[1];
 
-            Solve(n, m);
+            var a = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var b = Console.ReadLine().Split().Select(int.Parse).ToArray();
 
-            Console.WriteLine(_count);
+            Array.Sort(a);
+
+            for (int i = 0; i < m; i++)
+            {
+                var count = BinarySearchCount(a, b[i], 0, n - 1);
+                Console.WriteLine(count);
+            }
         }
     }
 }
